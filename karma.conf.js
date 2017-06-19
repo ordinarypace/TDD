@@ -1,12 +1,19 @@
 // Karma configuration
 // Generated on Mon Jun 05 2017 10:59:55 GMT+0900 (대한민국 표준시)
 var webpack = require('karma-webpack');
+var jshint = require('karma-jshint');
 
 module.exports = function(config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
+
+    browserConsoleLogOption: {
+        level: 'debug',
+        format: '%b %T: %m',
+        terminal: true
+    },
 
 
     // frameworks to use
@@ -21,6 +28,7 @@ module.exports = function(config) {
 
     plugins: [
         webpack,
+        jshint,
         'karma-jasmine',
         'karma-chrome-launcher'
     ],
@@ -33,7 +41,27 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+        'src/**/*.js' : ['jshint'],
         'test/**/*.spec.js' : ['webpack']
+    },
+
+    jshint: {
+        options: {
+            curly: true,
+            eqeqeq: true,
+            immed: true,
+            latedef: true,
+            newcap: true,
+            noarg: true,
+            sub: true,
+            undef: true,
+            boss: true,
+            devel: true,
+            eqnull: true,
+            browser: true,
+            globals: {}
+        },
+        summary: true
     },
 
     webpack: {
