@@ -110,5 +110,61 @@ describe('Conference.checkInService', () => {
             checkInService.checkIn(attendee);
             expect(checkInRecorder.recordCheckIn).toHaveBeenCalledWith(attendee);
         });
+
+        it('참가자의 체크인 번호를 세팅한다.', (done) => {
+            const onPromiseResolved = () => {
+                expect(attendee.getCheckInNumber()).toBe(checkInNumber);
+                done();
+            };
+
+            const onPromiseRejected = () => {
+                expect('이 실패 분기 코드가 실행되었다.').toBe(false);
+                done();
+            };
+        });
+
+        it('참가자의 checkInNumber를 지정한다.', (done) => {
+            checkInService.checkIn(attendee);
+            expect(attendee.getCheckInNumber()).toBe(checkInNumber);
+        });
+    });
+});
+
+describe('Conference.checkedInAttendeeCounter', () => {
+    let counter;
+
+    beforeEach(() => {
+        counter = Conference.checkedInAttendeeCounter();
+    });
+
+    describe('increment()', () => {
+
+    });
+
+    describe('decrement()', () => {
+
+    });
+
+    describe('getCount()', () => {
+
+    });
+
+    describe('countIfCheckedIn(attendee)', () => {
+        let attendee;
+
+        beforeEach(() => {
+            attendee = Conference.attendee('정식', '장');
+        });
+
+        it('참가자가 체크인 하지 않으면 인원수를 세지 않는다.', () => {
+            counter.countIfCheckedIn(attendee);
+            expect(counter.getCount()).toBe(0);
+        });
+
+        it('참가자가 체크인 하면 인원수를 센다.', () => {
+            attendee.checkIn();
+            counter.countIfCheckedIn(attendee);
+            expect(counter.getCount()).toBe(1);
+        })
     });
 });
