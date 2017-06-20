@@ -59,6 +59,58 @@ Conference.attendeeCollection = () => {
         getCount : getCount,
         iterate : iterate
     }
+};
+
+Conference.checkInRecorder = () => {
+    const recordCheckIn = () => {
+
+    }
+
+    return {
+        recordCheckIn : recordCheckIn
+    }
+};
+
+Conference.checkInService = (checkInRecorder) => {
+    let recorder = checkInRecorder;
+
+    const checkIn = (attendee) => {
+        attendee.checkIn();
+        recorder.recordCheckIn(attendee);
+    }
+
+    return {
+        checkIn : checkIn
+    }
+}
+
+Conference.checkedInAttendeeCounter = () => {
+    let checkedInAttendee = 0;
+
+    const increment = () => {
+        checkedInAttendee++;
+    };
+
+    const decrement = () => {
+        checkedInAttendee--;
+    };
+
+    const getCount = () => {
+        return checkedInAttendee;
+    };
+
+    const countIfCheckedIn = (attendee) =>{
+        if(attendee.isCheckedIn()){
+            this.increment();
+        }
+    };
+
+    return {
+        increment : increment,
+        decrement : decrement,
+        getCount : getCount,
+        countIfCheckedIn : countIfCheckedIn
+    }
 }
 
 export default Conference;

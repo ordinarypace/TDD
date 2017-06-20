@@ -85,3 +85,30 @@ describe('Conference.attendeeCollection', () => {
         });
     });
 });
+
+// 각 모듈별 파일로 작성하여 관리해야 하지만, 테스트 개념을 익히기 위함으로.
+describe('Conference.checkInService', () => {
+    let checkInService;
+    let checkInRecorder;
+    let attendee;
+
+    beforeEach(() => {
+        checkInRecorder = Conference.checkInRecorder();
+        spyOn(checkInRecorder, 'recordCheckIn');
+        checkInService = Conference.checkInService(checkInRecorder);
+
+        attendee = Conference.attendee('정식', '장');
+    });
+
+    describe('checkInService.checkIn(attendee)', () => {
+        it('참가자를 체크인 처리한 것으로 표시한다.', () => {
+            checkInService.checkIn(attendee);
+            expect(attendee.isCheckedIn()).toBe(true);
+        });
+
+        it('체크인을 등록한다.', () => {
+            checkInService.checkIn(attendee);
+            expect(checkInRecorder.recordCheckIn).toHaveBeenCalledWith(attendee);
+        });
+    });
+});
